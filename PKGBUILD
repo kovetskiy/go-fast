@@ -37,9 +37,7 @@ pkgver() {
 }
 
 build() {
-	cd "$srcdir/$pkgname"
-
-    :
+    rm -rf "$srcdir/$pkgname/.git"
 }
 
 package() {
