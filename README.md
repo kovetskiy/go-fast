@@ -1,7 +1,7 @@
 # go-fast
 
 Binary snippets for fast compilation Go projects that will increase your free
-time in 5x times.
+time in **5x times**.
 
 ## go-fast-compile
 
