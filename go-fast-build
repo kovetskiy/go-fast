@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
+export GOBIN=$(pwd)
+
+exec go install -gcflags "-trimpath $GOPATH/src" "$@"

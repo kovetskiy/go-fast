@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -euo pipefail
+
+export WORK="/tmp/go-fast-compile$(pwd | sed "s|^$GOPATH/src||")"
+export GOBIN="$WORK"
+
+eval "$(
+    go install -x -n "$@" 2>&1 \
+        | grep -vP '^(/usr/lib/go/pkg/tool/([^/]+)/link|mv) ' \
+        | sed -r '/^CGO_LDFLAGS=/s/" "/ /g'
+)"
