@@ -4,9 +4,10 @@ set -euo pipefail
 
 export WORK="/tmp/go-fast-compile$(pwd | sed "s|^$GOPATH/src||")"
 export GOBIN="$WORK"
+export GOTOOLDIR=`go env GOTOOLDIR`
 
 eval "$(
     go install -x -n "$@" 2>&1 \
-        | grep -vP '^(/usr/lib/go/pkg/tool/([^/]+)/link|mv) ' \
+        | grep -vP '^(${GOTOOLDIR}/link|mv) ' \
         | sed -r '/^CGO_LDFLAGS=/s/" "/ /g'
 )"
