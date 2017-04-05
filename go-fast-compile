@@ -1,13 +1,18 @@
 #!/bin/bash
 
-set -euo pipefail
-
 export WORK="/tmp/go-fast-compile$(pwd | sed "s|^$GOPATH/src||")"
 export GOBIN="$WORK"
-export GOTOOLDIR=`go env GOTOOLDIR`
+export GOTOOLDIR=$(go env GOTOOLDIR)
+
+goinstall="$(go install -x -n "$@" 2>&1)"
+if [[ $? -ne 0 ]]; then
+    echo "$goinstall"
+    exit 1
+fi
 
 eval "$(
-    go install -x -n "$@" 2>&1 \
+    echo "$goinstall" \
         | grep -vP '^(${GOTOOLDIR}/link|mv) ' \
         | sed -r '/^CGO_LDFLAGS=/s/" "/ /g'
 )"
+
